@@ -12,4 +12,4 @@ INSTANCE_ID="$(curl -sf http://169.254.169.254/1.0/meta-data/instance-id)"
 
 [ -z "$INSTANCE_ID" ] && fail "It seems you are not on AWS EC2"
 
-aws associate-address $1 -i $INSTANCE_ID
+aws associate-address "$1" -i "$INSTANCE_ID"
