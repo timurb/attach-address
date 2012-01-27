@@ -1,0 +1,15 @@
+#!/bin/sh
+
+fail() {
+  echo "error: $*"
+  exit 1
+}
+
+which aws > /dev/null || fail "No 'aws' command installed (https://github.com/timkay/aws)"
+[ -z "$1" ] && fail "Specify ElasticIP as a param to associate the instance with"
+
+INSTANCE_ID="$(curl -sf http://169.254.169.254/1.0/meta-data/instance-id)"
+
+[ -z "$INSTANCE_ID" ] && fail "It seems you are not on AWS EC2"
+
+aws associate-address $1 -i $INSTANCE_ID
